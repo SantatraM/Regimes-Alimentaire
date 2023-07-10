@@ -1,0 +1,13 @@
+h2 {
+    margin-block-start: 10%;
+}
+
+.formregime {
+    margin-left: 20%;
+}
+
+#menus {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    /* line-height: 20%; */
+}
