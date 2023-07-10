@@ -116,3 +116,9 @@
 -- Vues
     -- v_last_regime
         create or replace view v_last_regime as select*from regime where id_regime=(select max(id_regime) from regime);
+
+    -- v_regime_objectif
+        create or replace view v_regime_objectif as select regime.*, objectif.nom_objectif from regime join objectif on objectif.id_objectif=regime.id_objectif;
+
+    -- v_regime_menu
+        create or replace view v_regime_menu as select regime_menu.id_regime_menu, regime.*, menu.* from regime_menu join menu on regime_menu.id_menu=menu.id_menu join regime on regime.id_regime=regime_menu.id_regime;

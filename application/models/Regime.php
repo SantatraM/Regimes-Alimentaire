@@ -67,4 +67,34 @@ class Regime extends CI_Model {
             $this -> db -> query($sql);
         }
     }
+
+    public function getAllRegime() {
+        $sql="select*from v_regime_objectif";
+        $query=$this -> db -> query($sql);
+        $resultat=array();
+        foreach($query->result_array() as $row) {
+            $resultat[]=$row;
+        }
+        return $resultat;
+    }
+
+    public function getMenuOfRegime($id_regime) {
+        $sql="select*from v_regime_menu where id_regime='".$id_regime."'";
+        $query=$this -> db -> query($sql);
+        $resultat=array();
+        foreach($query->result_array() as $row) {
+            $resultat[]=$row;
+        }
+        return $resultat;
+    }
+
+    public function getCorrespondingRegime($id_regime) {
+        $sql="select*from v_regime_objectif where id_regime='".$id_regime."'";
+        $query=$this -> db -> query($sql);
+        $resultat=array();
+        foreach($query->result_array() as $row) {
+            $resultat=$row;
+        }
+        return $resultat;
+    }
 }
