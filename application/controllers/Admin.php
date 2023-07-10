@@ -41,7 +41,21 @@ class Admin extends CI_Controller {
     }
 
     public function liste_regime() {
+        $tab["regime"] = $this -> Regime -> getAllRegime();
+        $tab["css"]= "liste_regime.css";
+        $this -> load -> view("header", $tab);
+        $this -> load -> view("liste_regime", $tab);
+        $this -> load -> view("footer");
+    }
 
+    public function getMenuOfRegime() {
+        $id_regime=$this -> input -> get("id_regime");
+        $tab["regime"] = $this -> Regime -> getCorrespondingRegime($id_regime);
+        $tab["css"]= "liste_menu.css";
+        $tab["menu"] = $this -> Regime -> getMenuOfRegime($id_regime);
+        $this -> load -> view("header", $tab);
+        $this -> load -> view("liste_menu", $tab);
+        $this -> load -> view("footer");
     }
 
     public function nouveauRegime() {
