@@ -2,3 +2,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
+
+.btn-red {
+    color: red;
+    border-color: red;
+    background: transparent;
+  }
+  .btn-red:hover {
+    color: white;
+    background-color: red;
+    border-color: red;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
+    transform: translateY(-1px);
+  }
