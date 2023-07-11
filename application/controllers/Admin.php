@@ -81,8 +81,8 @@ class Admin extends CI_Controller {
             echo $e -> message;
         }
     }
-
-    public function supprimerRegime() {
+  
+  public function supprimerRegime() {
         $id_regime=$this -> input -> get("id_regime");
         $this -> Regime -> supprimerRegime($id_regime);
         redirect("Admin/liste_regime");
@@ -162,6 +162,43 @@ class Admin extends CI_Controller {
             echo $e->message;
         }
     }
+   
+    public function newcodemonaie() {
+        $this->load->model('Code_model');
+        $datas['code'] = $this->Code_model->getCode();
+        $data['css']='code_monaie.css';
+        $this->load->view('header', $data);
+        $this->load->view('code_monaie',$datas);
+        $this->load->view('Footer');
+    }
+
+    public function save_code() {
+        $this->load->model('Code_model');
+        $code = $this->input->post('numero');
+        $montant = $this->input->post('montant');
+        $codes = $this->Code_model->getAllCode();
     
+        foreach ($codes as $row) {
+            if ($row['numero'] == $code) {
+                $data['code'] = $this->Code_model->getCode();
+                $data['error'] = "Ce code ne peut plus etre utilise";
+                $data['css']='code_monaie.css';
+                $this->load->view('header', $data);
+                $this->load->view('code_monaie', $data);
+                $this->load->view('Footer');
+                return;
+            }
+        }
+    
+        $this->Code_model->Save_Code($code, $montant);
+        redirect('Admin/newcodemonaie');
+    }
+
+    function delete($id) {
+        $this->load->model('Code_model');
+        $this->Code_model->delete($id);
+
+        redirect('Admin/newcodemonaie');
+    }
     
 }
