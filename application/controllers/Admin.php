@@ -22,6 +22,11 @@ class Admin extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Regime');
+        if($this -> session -> userdata("admin")) {
+            
+        } else {
+            redirect("General/login_admin");
+        }
     }
 	
 	public function index() {
@@ -163,5 +168,8 @@ class Admin extends CI_Controller {
         }
     }
     
-    
+    public function deconnectAdmin() {
+        $this -> session -> unset_userdata("admin");
+        redirect("Admin/liste_regime");
+    } 
 }

@@ -133,6 +133,95 @@
                 ('Yoga', 1, 11, null, 'Yoga.jpeg'),
                 ('Haltérophilie', 2, 14, null, 'Halterophilie.jpg');
 
+    -- admin
+        create table admin(
+            id_admin serial primary key,
+            prenom_admin varchar(30),
+            email_admin varchar(30) not null unique,
+            mot_de_passe_admin varchar(30)
+        );
+
+        -- Données
+            insert into admin values(default, 'Tafita', 'tafita@gmail.com', '0000');
+            insert into admin values(default, 'Michael', 'michael@gmail.com', '1111');
+            insert into admin values(default, 'Santatra', 'santatra@gmail.com', '2222');
+
+    -- Code
+        create table code(
+            id_code serial primary key,
+            numero varchar(10) unique,
+            montant numeric,
+            etat int default 0,
+            date_supression date default null
+        );
+
+        -- Sexe
+        create table sexe(
+            id_sexe  serial primary key,
+            Type VARCHAR(100)
+        );
+
+        -- Données
+            insert into sexe values(default, 'Homme'); -- 1
+            insert into sexe values(default, 'Femme'); -- 2
+
+    -- Utilisateur
+        CREATE TABLE utilisateur(
+            id_utilisateur serial PRIMARY KEY,
+            prenoms_utilisateur VARCHAR (50) NOT NULL,
+            email_utilisateur VARCHAR (100) NOT NULL unique,
+            date_de_naissance Date,
+            id_sexe int,
+            mot_de_passe VARCHAR(100) NOT NULL,
+            foreign key(id_sexe) references sexe(id_sexe)
+        );
+
+        -- Données 
+            INSERT INTO utilisateur (prenoms_utilisateur, email_utilisateur, date_de_naissance, id_sexe, mot_de_passe)
+            VALUES ('John Doe', 'john.doe@example.com', '1990-05-15', 1, 'motdepasse1');
+
+            INSERT INTO utilisateur (prenoms_utilisateur, email_utilisateur, date_de_naissance, id_sexe, mot_de_passe)
+            VALUES ('Jane Smith', 'jane.smith@example.com', '1988-09-23', 2, 'motdepasse2');
+
+            INSERT INTO utilisateur (prenoms_utilisateur, email_utilisateur, date_de_naissance, id_sexe, mot_de_passe)
+            VALUES ('Alice Johnson', 'alice.johnson@example.com', '1995-02-10', 2, 'motdepasse3');
+
+            INSERT INTO utilisateur (prenoms_utilisateur, email_utilisateur, date_de_naissance, id_sexe, mot_de_passe)
+            VALUES ('Bob Williams', 'bob.williams@example.com', '1992-11-08', 1, 'motdepasse4');
+
+            INSERT INTO utilisateur (prenoms_utilisateur, email_utilisateur, date_de_naissance, id_sexe, mot_de_passe)
+            VALUES ('Emma Davis', 'emma.davis@example.com', '1998-07-19', 2, 'motdepasse5');
+
+    -- Porte monnaie
+        CREATE TABLE porte_monaie (
+            id_porte_monaie SERIAL PRIMARY KEY,
+            user_id INT,
+            code INT,
+            etat INT DEFAULT 0,
+            date DATE DEFAULT NOW(),
+            FOREIGN KEY (user_id) REFERENCES utilisateur (id_utilisateur),
+            FOREIGN KEY (code) REFERENCES code (id_code)
+        );
+
+    -- Planning
+        CREATE TABLE planning(
+            id_planning serial PRIMARY KEY,
+            id_utilisateurs int references utilisateur(id_utilisateur),
+            id_objectif int references objectif(id_objectif),
+            poids_demander double precision,
+            date_debut date,
+            id_regime int references regime(id_regime)
+        );
+
+    -- Caisse
+        create table caisse(
+            id_caisse serial primary key,
+            id_utilisateur int references utilisateur(id_utilisateur),
+            id_code int references code(id_code),
+            quantite_moins numeric,
+            date_transaction date
+        );
+
 -- Vues
     -- v_last_regime
         create or replace view v_last_regime as select*from regime where id_regime=(select max(id_regime) from regime);
@@ -145,3 +234,18 @@
 
     -- v_sport_objectif
         create or replace view v_sport_objectif as select activite_sportive.*, objectif.nom_objectif from activite_sportive join objectif on objectif.id_objectif=activite_sportive.id_objectif where date_suppression is null;
+
+    -- v_porte_monaie
+        create or replace view v_porte_monaie as
+        SELECT code.*, id_porte_monaie AS id, user_id AS user, porte_monaie.etat AS etat_porte_monaie
+        FROM porte_monaie
+        JOIN code ON porte_monaie.code = code.id_code;
+
+    -- v_planning_objectif
+        create or replace view v_planning_objectif as select planning.*, objectif.nom_objectif from planning join objectif on objectif.id_objectif=planning.id_objectif;
+
+    -- v_caisse_actuel_client
+        create or replace view v_caisse_actuel_client as select coalesce(sum(coalesce(code.montant, 0)-caisse.quantite_moins), 0) as caisse, utilisateur.* from caisse right join utilisateur on utilisateur.id_utilisateur=caisse.id_utilisateur left join code on code.id_code=caisse.id_code group by utilisateur.id_utilisateur;
+
+-- Requetes
+    select*from regime where id_objectif=2 order by poid desc;
