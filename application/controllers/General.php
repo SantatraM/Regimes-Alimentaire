@@ -9,8 +9,8 @@ class General extends CI_Controller {
             redirect("Admin/liste_regime");
         }
     }
-
-    public function index() {
+  
+	public function index(){
 		$this->load->view('login');
 	}	 	
 	
@@ -68,4 +68,5 @@ class General extends CI_Controller {
             redirect("Admin/liste_regime");
         }
     }
+}
 }

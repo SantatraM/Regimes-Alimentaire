@@ -11,7 +11,6 @@ class Client extends CI_Controller
             redirect("General");
         }
     }
-
 	public function index()
 	{
         $this->load->model('CodeClient_model');
@@ -77,4 +76,9 @@ class Client extends CI_Controller
             echo $e->getMessage();
         }
     }
+}
+
+	
+    
+	
 }

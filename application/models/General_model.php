@@ -1,25 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class General_model extends CI_Model {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
-     public function getdata($email, $mdp){
+    public function getdata($email, $mdp){
         $sql="select * from utilisateur where email_utilisateur='%s' and mot_de_passe='%s'";
         $sql=sprintf($sql, $email, $mdp);
         $query = $this->db->query($sql);
@@ -34,7 +17,6 @@ class General_model extends CI_Model {
         }
         return $tab;
     }
-
     public function insertion_utilisateur($prenoms,$email,$date_de_naissance,$sexe,$mot_de_passe) {
         $data = array(
             'prenoms_utilisateur' => $prenoms,
@@ -89,3 +71,5 @@ class General_model extends CI_Model {
     }
 }
 ?>
+}
+
