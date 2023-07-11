@@ -78,7 +78,7 @@ class Admin extends CI_Controller {
             $this -> Regime -> nouveauRegime($nom_regime, $prix_regime, $id_menu, $id_objectif, $poid);
             redirect("Admin/liste_regime");
         } catch (Exception $e) {
-            echo $e -> message;
+            echo $e->getMessage();
         }
     }
   
@@ -200,5 +200,26 @@ class Admin extends CI_Controller {
 
         redirect('Admin/newcodemonaie');
     }
+
+
+    // --------------------------------------------validation code ---------------------------------------
+
+    public function validation(){
+        $this->load->model('ValidationCode_model');
+        $data['pm'] = $this->ValidationCode_model->getPorte_monaie();
+        $data['css']='code_monaie.css';
+        $this->load->view('header', $data);
+        $this->load->view('validation_code',$data);
+        $this->load->view('Footer');
+    }
+
+    public function valide_porte_monaie($user,$code) {
+        $this->load->model('ValidationCode_model');
+        $this->ValidationCode_model->valide_code(21,$code);
+        $this->ValidationCode_model->update_etat_code(11,$code);
+        $this->validationCode_model->insert_caisse($user,$code);
+    }
+
+   
     
 }
