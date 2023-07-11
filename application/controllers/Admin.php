@@ -24,20 +24,12 @@ class Admin extends CI_Controller {
         $this->load->model('Regime');
         if($this -> session -> userdata("admin")) {
             
+        } else if($this -> session -> userdata("client")) {
+            redirect("Client/objectifs");
         } else {
             redirect("General/login_admin");
         }
     }
-	
-	public function index() {
-		$this->load->view('newregime');
-	}	
-	
-	public function table() {
-		$this->load->view('Accueil');
-		$this->load->view('Tables-basic');
-		// $this->load->view('Footer');
-	}
 
     public function newRegime() {
         $tab['objectif']=$this -> Regime -> getAllObjectif();
@@ -197,10 +189,6 @@ class Admin extends CI_Controller {
         $this->Code_model->Save_Code($code, $montant);
         redirect('Admin/newcodemonaie');
     }
-    public function deconnectAdmin() {
-        $this -> session -> unset_userdata("admin");
-        redirect("Admin/liste_regime");
-    } 
        
 
     function delete($id) {
@@ -212,7 +200,7 @@ class Admin extends CI_Controller {
 
 
     // --------------------------------------------validation code ---------------------------------------
-
+// Mbola ho atao 
     public function validation(){
         $this->load->model('ValidationCode_model');
         $data['pm'] = $this->ValidationCode_model->getPorte_monaie();

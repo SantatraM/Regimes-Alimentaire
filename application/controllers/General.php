@@ -7,17 +7,14 @@ class General extends CI_Controller {
         $this->load->model('General_model');
         if($this -> session -> userdata("admin")) {
             redirect("Admin/liste_regime");
+        } else if($this -> session -> userdata("client")) {
+            redirect("Client/objectifs");
         }
     }
   
 	public function index(){
 		$this->load->view('login');
 	}	 	
-	
-    public function error_login(){
-		$data['errorl'] = 'Your Account is Invalid';  
-		$this->load->view('login',$data);
-	}	
 
     public function process_login() {
 		$email = $this->input->post('email');
@@ -47,17 +44,17 @@ class General extends CI_Controller {
         $date_de_naissance= $this->input->post('dtn');
         $sexe= $this->input->post('sexe');
         $mot_de_passe= $this->input->post('password');
-
         $this->General_model->insertion_utilisateur($prenoms,$email,$date_de_naissance,$sexe,$mot_de_passe);
-
 		redirect('General');
     }
 
     public function login_admin() {
-        $this -> load -> view('login_admin');
+        $data['admin']=$this -> General_model -> getCorrespondingAdmin("tafita@gmail.com", "0000");
+        $this -> load -> view('login_admin', $data);
     }
 
     public function process_login_admin() {
+		$this->load->model('General_model');
         $email=$this -> input -> post('email_admin');
         $mdp=$this -> input -> post('mdp_admin');
         $admin = $this -> General_model -> getCorrespondingAdmin($email, $mdp);
@@ -68,5 +65,4 @@ class General extends CI_Controller {
             redirect("Admin/liste_regime");
         }
     }
-}
 }

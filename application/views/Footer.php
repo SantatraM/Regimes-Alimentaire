@@ -6,7 +6,7 @@
                   <script>
                     document.write(new Date().getFullYear());
                   </script>
-                  , made with ❤️ by ETU1787 ETU0000 ETU0000
+                  , made with ❤️ by ETU001787 ETU001863 ETU001870
                   <!-- <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
                 </div>
                 <div>
@@ -20,12 +20,7 @@
                     >Documentation</a
                   > -->
 
-                  <a
-                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Log out</a
-                  >
+                  
                 </div>
               </div>
             </footer>
