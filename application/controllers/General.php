@@ -1,7 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class General extends CI_Controller {
 
+class General extends CI_Controller {
+    public function __construct(){
+        parent::__construct();
+        $this->load->model('General_model');
+        if($this -> session -> userdata("admin")) {
+            redirect("Admin/liste_regime");
+        }
+    }
+  
 	public function index(){
 		$this->load->view('login');
 	}	 	
@@ -21,7 +29,7 @@ class General extends CI_Controller {
 			$this->load->view('login',$data); 
 		} else {
 			$this->session->set_userdata('client',$data);
-			redirect('General/');
+			redirect('Client/objectifs');
 		}
     }
 
@@ -44,4 +52,21 @@ class General extends CI_Controller {
 
 		redirect('General');
     }
+
+    public function login_admin() {
+        $this -> load -> view('login_admin');
+    }
+
+    public function process_login_admin() {
+        $email=$this -> input -> post('email_admin');
+        $mdp=$this -> input -> post('mdp_admin');
+        $admin = $this -> General_model -> getCorrespondingAdmin($email, $mdp);
+        if(count($admin)==0) {
+            redirect("General/login_admin");
+        } else {
+            $this -> session -> set_userdata("admin", $admin);
+            redirect("Admin/liste_regime");
+        }
+    }
+}
 }

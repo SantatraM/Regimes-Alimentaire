@@ -22,6 +22,11 @@ class Admin extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Regime');
+        if($this -> session -> userdata("admin")) {
+            
+        } else {
+            redirect("General/login_admin");
+        }
     }
 	
 	public function index() {
@@ -177,8 +182,7 @@ class Admin extends CI_Controller {
         $code = $this->input->post('numero');
         $montant = $this->input->post('montant');
         $codes = $this->Code_model->getAllCode();
-    
-        foreach ($codes as $row) {
+     foreach ($codes as $row) {
             if ($row['numero'] == $code) {
                 $data['code'] = $this->Code_model->getCode();
                 $data['error'] = "Ce code ne peut plus etre utilise";
@@ -193,6 +197,11 @@ class Admin extends CI_Controller {
         $this->Code_model->Save_Code($code, $montant);
         redirect('Admin/newcodemonaie');
     }
+    public function deconnectAdmin() {
+        $this -> session -> unset_userdata("admin");
+        redirect("Admin/liste_regime");
+    } 
+       
 
     function delete($id) {
         $this->load->model('Code_model');
@@ -220,6 +229,4 @@ class Admin extends CI_Controller {
         $this->validationCode_model->insert_caisse($user,$code);
     }
 
-   
-    
 }

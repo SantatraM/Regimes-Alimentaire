@@ -17,8 +17,6 @@ class General_model extends CI_Model {
         }
         return $tab;
     }
-
-    
     public function insertion_utilisateur($prenoms,$email,$date_de_naissance,$sexe,$mot_de_passe) {
         $data = array(
             'prenoms_utilisateur' => $prenoms,
@@ -41,5 +39,37 @@ class General_model extends CI_Model {
         return $resultat;
     }
 
+    public function getCorrespondingAdmin($email, $mdp) {
+        $sql="select*from admin where email_admin='%s' and mot_de_passe_admin='%s'";
+        $sql=sprintf($sql, $email, $mdp);
+        $resultat=array();
+        $query=$this -> db -> query($sql);
+        foreach($query->result_array() as $row) {
+            $resultat=$row;
+        }
+        return $resultat;
+    }
+
+    public function get_objectifs()
+    {
+        $query = "SELECT * FROM objectif";
+        $sql = $this->db->query($query);
+        $resultat=array();
+        foreach($sql->result_array() as $row) {
+            $resultat[]=$row;
+        }
+        return $resultat;
+    }
+
+    public function inserction_planning($id_objectif,$poids_demander,$date_debut) {
+        $data = array (
+            'id_objectif'=> $id_objectif,
+            'poids_demander'=>$poids_demander,
+            'date_debut'=>$date_debut
+        );
+        $this->db->insert('planning',$data);
+    }
+}
+?>
 }
 
