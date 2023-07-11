@@ -23,6 +23,7 @@
                                     Poid perdu/gagner : <?php echo $regime[$i]['poid']; ?>
                                 </p>
                                 <a href="<?php echo site_url("Admin/getMenuOfRegime?id_regime=".$regime[$i]['id_regime']); ?>" class="btn btn-outline-primary">Voir les menus</a>
+                                <a href="<?php echo site_url("Admin/supprimerRegime?id_regime=".$regime[$i]['id_regime']); ?>" class="btn btn-red">Supprimer</a>
                             </div>
                         </div>
                     </div>
