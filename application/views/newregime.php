@@ -1,4 +1,4 @@
-          <div class="col-6 d-flex justify-content-center" style = "justify-content:center;">
+<div class="col-6 d-flex justify-content-center" style = "justify-content:center;">
             <div class="card mb-4">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Inserer un nouveau regime</h5>

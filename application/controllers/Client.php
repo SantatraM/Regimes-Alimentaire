@@ -7,6 +7,8 @@ class Client extends CI_Controller
         $this->load->model('Regime');
         if($this -> session -> userdata("client")) {
             
+        } else if($this -> session -> userdata("admin")) {
+            redirect("Admin/liste_regime");
         } else {
             redirect("General");
         }
@@ -15,7 +17,10 @@ class Client extends CI_Controller
 	{
         $this->load->model('CodeClient_model');
         $data['code'] = $this->CodeClient_model->getCode();
+        $data['css'] = "client.css";
+        $this -> load -> view("header", $data);
         $this->load->view('Client',$data);
+        $this -> load -> view("footer");
 	}	
 
     public function save() { //save porte_monaie
@@ -81,4 +86,3 @@ class Client extends CI_Controller
 	
     
 	
-}

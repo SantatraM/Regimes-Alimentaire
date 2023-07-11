@@ -119,11 +119,11 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Sneat-IT</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Welcome to Sneat!</h4>
+              <h4 class="mb-2">Welcome to Sneat-IT</h4>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
               <p style="color:red"><?php echo isset($errorl) ? $errorl : ''; ?></p>
@@ -167,6 +167,12 @@
                 <span>New on our platform?</span>
                 <a href="<?php echo site_url('General/inscription'); ?>">
                   <span>Create an account</span>
+                </a>
+              </p>
+              <p class="text-center">
+                <span>Vous etes admin ?</span>
+                <a href="<?php echo site_url('General/login_admin'); ?>">
+                  <span>Se connecter en</span>
                 </a>
               </p>
             </div>

@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Login Basic - Pages | Sneat-IT - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -119,11 +119,11 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Sneat-IT</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Welcome to Sneat! 👋</h4>
+              <h4 class="mb-2">Welcome to Sneat-IT! 👋</h4>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
               <form id="formAuthentication" class="mb-3" action="<?php echo site_url("General/process_login_admin"); ?>" method="POST">
@@ -136,6 +136,7 @@
                     name="email_admin"
                     placeholder="Enter your email or username"
                     autofocus
+                    value=<?php echo $admin['email_admin'];?>
                   />
                 </div>
                 <div class="mb-3 form-password-toggle">
@@ -153,6 +154,7 @@
                       name="mdp_admin"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+                      value=<?php echo $admin['mot_de_passe_admin'];?> 
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
@@ -172,6 +174,12 @@
                 <span>New on our platform?</span>
                 <a href="auth-register-basic.html">
                   <span>Create an account</span>
+                </a>
+              </p>
+              <p class="text-center">
+                <span>Vous etes client ?</span>
+                <a href="<?php echo site_url('General'); ?>">
+                  <span>Se connecter</span>
                 </a>
               </p>
             </div>
