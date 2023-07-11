@@ -40,8 +40,14 @@ class Regime extends CI_Model {
     }
 
     public function newRegimeTable($nom_regime, $prix_regime, $id_objectif, $poid) {
-        $sql="insert into regime values(default, '%s', '%s', '%s', '%s')";
+        $sql="insert into regime values(default, '%s', '%s', '%s', '%s', null)";
         $sql=sprintf($sql, $nom_regime, $prix_regime, $id_objectif, $poid);
+        $this -> db -> query($sql);
+    }
+
+    public function nouveauSport($nom_sport, $id_objectif, $poid, $image) {
+        $sql="insert into activite_sportive values(default, '%s', '%s', '%s', null, '%s')";
+        $sql=sprintf($sql, $nom_sport, $id_objectif, $poid, $image);
         $this -> db -> query($sql);
     }
 
@@ -57,7 +63,7 @@ class Regime extends CI_Model {
 
     public function nouveauRegime($nom_regime, $prix_regime, $id_menu, $id_objectif, $poid) {
         if(count($id_menu)!=7) {
-            throw new Exception("Il n'y a pas assez de menus selectionnes");
+            throw new Exception("Il n'y a pas assez ou trop de menus selectionnes");
         }
         $this -> newRegimeTable($nom_regime, $prix_regime, $id_objectif, $poid);
         $v_last_regime=$this -> getLastRegime();
@@ -70,6 +76,16 @@ class Regime extends CI_Model {
 
     public function getAllRegime() {
         $sql="select*from v_regime_objectif";
+        $query=$this -> db -> query($sql);
+        $resultat=array();
+        foreach($query->result_array() as $row) {
+            $resultat[]=$row;
+        }
+        return $resultat;
+    }
+
+    public function getAllSport() {
+        $sql="select*from v_sport_objectif";
         $query=$this -> db -> query($sql);
         $resultat=array();
         foreach($query->result_array() as $row) {
@@ -96,5 +112,15 @@ class Regime extends CI_Model {
             $resultat=$row;
         }
         return $resultat;
+    }
+
+    public function supprimerRegime($id_regime) {
+        $sql="update regime set date_suppression=now() where id_regime='".$id_regime."'";
+        $this -> db -> query($sql);
+    }
+
+    public function supprimerSport($id_sport) {
+        $sql="update activite_sportive set date_suppression=now() where id_activite_sportive='".$id_sport."'";
+        $this -> db -> query($sql);
     }
 }

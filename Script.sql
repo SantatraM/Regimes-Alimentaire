@@ -66,15 +66,16 @@
             nom_regime varchar(50),
             prix numeric,
             id_objectif int references objectif(id_objectif),
-            poid int
+            poid int,
+            date_suppression date default now()
         );
 
         -- Données
-            insert into regime values(default, 'REGIME1', 1000000, 1, 10);
-            insert into regime values(default, 'REGIME2', 2000000, 2, 20);
-            insert into regime values(default, 'REGIME3', 3000000, 1, 30);
-            insert into regime values(default, 'REGIME4', 4000000, 2, 40);
-            insert into regime values(default, 'REGIME5', 5000000, 1, 50);
+            insert into regime values(default, 'REGIME1', 1000000, 1, 10, null);
+            insert into regime values(default, 'REGIME2', 2000000, 2, 20, null);
+            insert into regime values(default, 'REGIME3', 3000000, 1, 30, null);
+            insert into regime values(default, 'REGIME4', 4000000, 2, 40, null);
+            insert into regime values(default, 'REGIME5', 5000000, 1, 50, null);
 
     -- Regime_menu
         create table regime_menu(
@@ -113,12 +114,34 @@
         ORDER BY id_menu
         LIMIT 7 offset 28;
 
+    -- Activité sportive
+        create table activite_sportive(
+            id_activite_sportive serial primary key,
+            nom_activite_sportive varchar(30),
+            id_objectif int references objectif(id_objectif),
+            poid int,
+            date_suppression date, 
+            image_activite_sportive varchar(30) not null
+        );
+
+        -- Données
+            INSERT INTO activite_sportive (nom_activite_sportive, id_objectif, poid, date_suppression, image_activite_sportive)
+            VALUES
+                ('Course a pied', 2, 15, null, 'course a pied.jpeg'),
+                ('Natation', 1, 12, null, 'Natation.jpeg'),
+                ('Cyclisme', 2, 18, null, 'Cyclisme.jpg'),
+                ('Yoga', 1, 11, null, 'Yoga.jpeg'),
+                ('Haltérophilie', 2, 14, null, 'Halterophilie.jpg');
+
 -- Vues
     -- v_last_regime
         create or replace view v_last_regime as select*from regime where id_regime=(select max(id_regime) from regime);
 
     -- v_regime_objectif
-        create or replace view v_regime_objectif as select regime.*, objectif.nom_objectif from regime join objectif on objectif.id_objectif=regime.id_objectif;
+        create or replace view v_regime_objectif as select regime.*, objectif.nom_objectif from regime join objectif on objectif.id_objectif=regime.id_objectif where date_suppression is null;
 
     -- v_regime_menu
         create or replace view v_regime_menu as select regime_menu.id_regime_menu, regime.*, menu.* from regime_menu join menu on regime_menu.id_menu=menu.id_menu join regime on regime.id_regime=regime_menu.id_regime;
+
+    -- v_sport_objectif
+        create or replace view v_sport_objectif as select activite_sportive.*, objectif.nom_objectif from activite_sportive join objectif on objectif.id_objectif=activite_sportive.id_objectif where date_suppression is null;
